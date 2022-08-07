@@ -1,0 +1,2 @@
+# beyondCompareScript
+window下使用beyondCompare比较文件夹下所有文件，并输出差异report.html
