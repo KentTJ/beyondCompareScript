@@ -1,0 +1,27 @@
+2022/8/7 21:19:52  *** Beyond Compare 4 Evaluation -- 17 days remaining ***
+2022/8/7 21:19:52  >> # Turn logging on. 鎵撳紑鏃ュ織锛屽苟灏嗘棩蹇楀啓鍏eyond_compare_log.txt 鏂囦欢锛屾柟渚垮畾浣嶉棶棰?
+2022/8/7 21:19:52  >> log normal "beyond_compare_log.txt"
+2022/8/7 21:19:52  >> 
+2022/8/7 21:19:52  >> 
+2022/8/7 21:19:52  >> # Set up basic comparison features. [1]鎸囧畾姣旇緝瑙勫垯锛屽綋鍓嶆寚瀹氱殑鏄?鍩轰簬瑙勫垯鐨勬瘮杈?
+2022/8/7 21:19:52  >> criteria rules-based
+2022/8/7 21:19:52  >> 
+2022/8/7 21:19:52  >> text-report layout:side-by-side & 
+2022/8/7 21:19:52  >> options:display-all,line-numbers &
+2022/8/7 21:19:52  >> output-to:report\test12.txt_vs_test_inner.txt.html output-options:wrap-character,html-color C:\Users\Administrator\Desktop\shell笔记\beyondCompareScript\comparePath1\1111\test12.txt C:\Users\Administrator\Desktop\shell笔记\beyondCompareScript\comparePath2\1111\test_inner.txt
+2022/8/7 21:19:52  >> 
+2022/8/7 21:19:52  >> 
+2022/8/7 21:19:52  >> 
+2022/8/7 21:19:52  >> 
+2022/8/7 21:19:52  >> 
+2022/8/7 21:19:52  >> #鑴氭湰
+2022/8/7 21:19:52  >> #options:ignore-unimportant,display-context  --> 浠呮樉绀轰笉鍚岋紵
+2022/8/7 21:19:52  >> #options:display-mismatches,line-numbers 
+2022/8/7 21:19:52  >> #output-to:report\test12.txt_vs_test_inner.txt.html 绗笁涓弬鏁?
+2022/8/7 21:19:52  >> #https://juejin.cn/post/6923799019261018120  
+2022/8/7 21:19:52  >> #https://www.chuwenyu.com/577301.html
+2022/8/7 21:19:52  >> #https://www.scootersoftware.com/v4help/index.html?scripting_reference.html
+2022/8/7 21:19:52  >> 
+2022/8/7 21:19:52  >> #鎵撳紑鏃ュ織璁板綍\n#  姣旇緝濂界殑鏃ュ織鏂瑰紡
+2022/8/7 21:19:52  >> #log normal "D:\\CompareLog_2022-08-07_21-19-52.txt"  鏃ユ湡鍙婃椂闂存牸寮? yyyy-mm-dd HH-mm-ss
+2022/8/7 21:19:52  Script completed in 0.23 seconds

@@ -1,0 +1,25 @@
+# Turn logging on. 打开日志，并将日志写入beyond_compare_log.txt 文件，方便定位问题
+log normal "beyond_compare_log.txt"
+
+
+# Set up basic comparison features. [1]指定比较规则，当前指定的是 基于规则的比较 
+criteria rules-based
+
+text-report layout:side-by-side & 
+options:display-all,line-numbers &
+output-to:%3 output-options:wrap-character,html-color %1 %2
+
+
+
+
+
+#脚本
+#options:ignore-unimportant,display-context  --> 仅显示不同？
+#options:display-mismatches,line-numbers 
+#output-to:%3 第三个参数
+#https://juejin.cn/post/6923799019261018120  
+#https://www.chuwenyu.com/577301.html
+#https://www.scootersoftware.com/v4help/index.html?scripting_reference.html
+
+#打开日志记录\n#  比较好的日志方式
+#log normal "D:\\CompareLog_%date%_%fn_time%.txt"  日期及时间格式: yyyy-mm-dd HH-mm-ss

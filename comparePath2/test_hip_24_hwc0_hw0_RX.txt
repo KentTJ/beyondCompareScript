@@ -1,0 +1,157 @@
+1、linux终端、win git终端下，如何定义自己的函数？
+(24, 0, 3)
+（1）终端启动时，自动执行命令方法
+ ~/.bashrc, ~/.bash_profile, ~/.profile  ------》用everything搜这三个文件，。比如：C:\Program Files\Git\etc
+ https://blog.csdn.net/weixin_39060517/article/details/116323908
+（2）如何引入文件？source file.sh --->见命令wireless
+where git  ---》在这个路径下加
+
+
+2、看到某一行代码有问题，想找到改动这一行时，所有的改动：
+
+git blame fileName 行数  ---》hash
+方法一（优秀）：
+git reset --hard  hash ---》图形界面，小乌龟用beyondCompare查看所有差异
+方法二：
+git diff hash  hash^   ---->命令查看差异不直观
+
+方法三：找到MR链接？？
+
+
+3、git log，时间排序是 本地commit时间（不是merge时间！！！！）
+------》所以，一个merge，有多个commit时间？？？且不连续？？？（为啥小乌龟上看是连续的？？？）
+如何看一次merge信息？？？？？
+
+
+4、关于merge信息如何看？？？
+
+
+
+5、关于本地git log排序方式：
+符号解释：
+* 存在，| 不存在  
+
+
+git init .
+git commit --allow-empty -m "T1"
+git checkout -b b1 master
+git commit --allow-empty -m "T2"
+git checkout -b b2 master
+git commit --allow-empty -m "T3"
+git checkout b1
+git commit --allow-empty -m "T4"
+git checkout b2
+git commit --allow-empty -m "T5"
+
+
+即本地：
+master：T1
+b1:     T1    T2       T4
+b2:     T1        T3       T5
+
+**--topo-order 选项的提交排序结果 **
+注意： --topo-order 为默认选项。
+$ git log --all --graph --oneline --decorate=short
+* 39aa4e6 (HEAD -> b2) T5
+* 2628a88 T3
+| * 2b2b4cd (b1) T4
+| * 835cbdd T2
+|/
+* 8c1fa29 (master) T1
+----------》（自然）以本地的分支为重心，一条分支上，干到底，比如b1: T1    T2       T4
+
+
+--date-order 选项的提交排序结果
+$ git log --all --graph --oneline --decorate=short --date-order
+* 39aa4e6 (HEAD -> b2) T5
+| * 2b2b4cd (b1) T4
+* | 2628a88 T3
+| * 835cbdd T2
+|/
+* 8c1fa29 (master) T1
+----------》以时间为重心，T1T2T3T4T5，然后选择分支有没有，即*与|
+
+
+6、对于远端，git log下，只有master分支：
+即5全部merge到远端，git log显示的是？？？？？？？
+
+
+
+7、关于--graph ？？
+https://www.cxyzjd.com/article/icbm/71194179  图形界面设置
+你永远看不懂git log，只能看懂 git log --graph -all
+git log，只有当前分支的commit，包括其他分支merge尽来的！！！
+
+-----》只有commit，没有merge到底是什么情况？？？？
+
+
+
+8、rebase会修改你本地的commitID，为什么这样做？？
+因为本地commit时间靠前，复制一份，挪动到库上所有代码（可能在你本地commit之后）之后！！，猜测，也改动了时间！！？？？？？
+
+
+9、合并几个commit
+git rebase -i commitID
+
+
+10、如何辨认master分支线？？
+看末节点
+
+
+11、git log --stat
+显示改动的文件
+
+
+12、查看merge信息：
+https://github.com/dragonwong/blog/issues/2
+
+| |     
+| |     Co-authored-by: Ray Rischpater, KF6GPE <rischpater@google.com>
+| |   
+| *   commit 1fe23b63d5e4df7065d85c5a5c08d18441f15f55
+| |\  Merge: e20ce71009 8c2bb22acf
+| | | Author: yusufm <mohsinally@google.com>
+| | | Date:   Fri Apr 23 15:42:42 2021 -0700
+| | | 
+| | |     Deleting device manifest.yaml and manifest test
+| | | 
+| | * commit 8c2bb22acf48d64d6a22894c45e0cd72180577fe
+| | | Author: yusufm <mohsinally@google.com>
+| | | Date:   Fri Apr 23 14:51:54 2021 -0700
+| | | 
+| | |     Marking win bot tests and not flakey. (#81049)
+| | |     
+| | |     Co-authored-by: yusufm <mohsinally@google.com>
+| | | 
+| * | commit e20ce710090124e605f0bc83672be591d7508037
+| |/  Author: yusufm <mohsinally@google.com>
+| |   Date:   Fri Apr 23 14:51:54 2021 -0700
+| |   
+| |       Updating prod_builders.json and removing manifest.yaml.
+| |       
+| |       Changes to remove using agent results, which have all been replaced by bots.
+（1)merge的时间点
+(2)merge前的分支
+
+13、alias方法定制自己的命令：
+---》优点：（1）可以简写命令gst  （2）可以交互（shell方式不容易实现）  
+配置方法：~/.gitconfig中
+[alias]
+lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all   lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+lg = !"git lg1"
+1
+
+命令配置方法：
+ git config --global alias.st status
+ 
+
+14、无线pc里写好的shell（todo）
+
+
+15 git log 的个性化输出格式 --pretty=
+只输出hash： git log --pretty=format:"%h"
+
+16、git cherry-pick  A^..B 
+[A, B]闭区间
+
