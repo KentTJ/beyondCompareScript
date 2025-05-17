@@ -1,0 +1,54 @@
+diff --git a/services/core/java/com/android/server/wm/SystemGesturesPointerEventListener.java b/services/core/java/com/android/server/wm/SystemGesturesPointerEventListener.java
+index 878b33fa55ef..50ba16bbc4df 100644
+--- a/services/core/java/com/android/server/wm/SystemGesturesPointerEventListener.java
++++ b/services/core/java/com/android/server/wm/SystemGesturesPointerEventListener.java
+@@ -38,6 +38,7 @@ import android.view.InputDevice;
+ import android.view.MotionEvent;
+ import android.view.WindowManagerPolicyConstants.PointerEventListener;
+ import android.widget.OverScroller;
++import android.widget.Toast;
+ 
+ import java.io.PrintWriter;
+ 
+@@ -59,6 +60,9 @@ class SystemGesturesPointerEventListener implements PointerEventListener {
+     private static final int SWIPE_FROM_RIGHT = 3;
+     private static final int SWIPE_FROM_LEFT = 4;
+ 
++    // add by chen
++    private static final int SWIPE_FROM_CENTER_TO_DOWN = 5;
++
+     private final Context mContext;
+     private final Handler mHandler;
+     private int mDisplayCutoutTouchableRegionSize;
+@@ -221,6 +225,13 @@ class SystemGesturesPointerEventListener implements PointerEventListener {
+                     } else if (swipe == SWIPE_FROM_LEFT) {
+                         if (DEBUG) Slog.d(TAG, "Firing onSwipeFromLeft");
+                         mCallbacks.onSwipeFromLeft();
++                    } else if (swipe == SWIPE_FROM_CENTER_TO_DOWN) {
++                        Slog.d(TAG, "chen, Firing onSwipeFromCenterToDown:" + event.getPointerCount());
++                        //判断三指开始截图 ---> 弹toast替代
++                        if (event.getPointerCount() == 3) {
++//                            sScreenshotHelper.takeScreenshot(WindowManager.TAKE_SCREENSHOT_FULLSCREEN, true, true, mScreenShotHandler, null);
++                            Toast.makeText(mContext,"开始截图", Toast.LENGTH_LONG).show();
++                        }
+                     }
+                 }
+                 break;
+@@ -331,6 +342,17 @@ class SystemGesturesPointerEventListener implements PointerEventListener {
+         final long elapsed = time - mDownTime[i];
+         if (DEBUG) Slog.d(TAG, "pointer " + mDownPointerId[i]
+                 + " moved (" + fromX + "->" + x + "," + fromY + "->" + y + ") in " + elapsed);
++        // add by chen start: three fingers screenshot
++        //添加三指下滑判断
++        float xDistance = Math.abs(x - fromX);
++        float yDistance = Math.abs(y - fromY);
++        if (fromY >= mSwipeStartThreshold .top* 2
++                && yDistance > xDistance
++                && y > fromY + mSwipeDistanceThreshold
++                && elapsed < SWIPE_TIMEOUT_MS) {
++            return SWIPE_FROM_CENTER_TO_DOWN;
++        }
++        // add end
+         if (fromY <= mSwipeStartThreshold.top
+                 && y > fromY + mSwipeDistanceThreshold
+                 && elapsed < SWIPE_TIMEOUT_MS) {
